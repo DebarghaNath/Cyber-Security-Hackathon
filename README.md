@@ -62,4 +62,4 @@ go to the index.html file and do command L and command O
 
 ## How To Use
 
-![Example 1](https://raw.githubusercontent.com/YourUsername/Cyber-Security-Hackathon/main/Screenshot 2025-11-14 at 5.48.15 PM.png)
+![Example 1](https://raw.githubusercontent.com/DebarghaNath/Cyber-Security-Hackathon/main/Screenshot 2025-11-14 at 5.48.15 PM.png)
