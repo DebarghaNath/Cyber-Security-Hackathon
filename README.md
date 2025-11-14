@@ -1,6 +1,7 @@
-# Cyber Security Hackathon - Face Matching App
+# Cyber Security Hackathon - Problem Statement 7 (PS-7) – Missing Person & Unidentified Dead Body (UIDB) Linkage Portal for Odisha Police
 
-A Python-based web application for face similarity matching using **MediaPipe** and **OpenCV**.  
+
+A Python-based web application for face similarity matching using **MediaPipe**   
 The backend is built with **Flask**, and the frontend is a static HTML/JS interface.  
 
 ---
@@ -9,7 +10,7 @@ The backend is built with **Flask**, and the frontend is a static HTML/JS interf
 
 - Detects facial landmarks (eyes, nose tip, mouth) using MediaPipe.
 - Computes similarity score between two uploaded images.
-- Returns detailed keypoints for both images.
+- Returns Similarity Score of Two Images.
 - Simple frontend interface for uploading and comparing faces.
 - CORS enabled for cross-origin requests.
 
@@ -18,8 +19,7 @@ The backend is built with **Flask**, and the frontend is a static HTML/JS interf
 ## Requirements
 
 - **macOS**: Big Sur (11.0) or later  
-- **Windows**: 10 or later  
-- **Python**: 3.11.x  
+- **Python**: 3.11
 - **RAM**: Minimum 8GB recommended  
 - **Disk Space**: 500 MB for packages  
 
@@ -32,7 +32,8 @@ numpy
 
 
 
----
+---<img width="790" height="335" alt="Screenshot 2025-11-14 at 5 46 21 PM" src="https://github.com/user-attachments/assets/8ce8f680-1f63-4fcc-85dc-2db33ec177f7" />
+
 
 ## Setup (macOS)
 
@@ -42,6 +43,7 @@ git clone https://github.com/DebarghaNath/Cyber-Security-Hackathon.git
 cd Cyber-Security-Hackathon
 ```
 ### 2. Create a virtual environment
+install python3.11 before this step
 ```bash
 python3.11 -m venv env
 source env/bin/activate
@@ -60,3 +62,6 @@ python app.py
 ```bash
 go to the index.html file and do command L and command O
 ```
+
+
+## How To Use
