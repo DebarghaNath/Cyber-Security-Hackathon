@@ -1,50 +1,69 @@
-# setup.ps1
-# PowerShell script to setup Python 3.11 venv and install requirements
-
+# run_all.ps1
 $ErrorActionPreference = "Stop"
 
-# Project directory
 $PROJECT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $VENV_DIR = Join-Path $PROJECT_DIR ".venv"
-$PYTHON_EXE = "python.exe"
+$BACKEND_SCRIPT = Join-Path $PROJECT_DIR "app.py"
+$FRONTEND_DIR = Join-Path $PROJECT_DIR "frontend"
+$SETUP_SCRIPT = Join-Path $PROJECT_DIR "setup.ps1"
 
-# Function to check Python version
-function Test-Python {
-    try {
-        $ver = & $PYTHON_EXE --version 2>$null
-        return $ver -match "Python 3\.11"
-    } catch {
-        return $false
-    }
-}
+function Write-Log($m){ Write-Host "[run_all] $m" }
 
-# Install Python 3.11 if missing
-if (-not (Test-Python)) {
-    Write-Host "Python 3.11 not found. Installing..."
-    $installerUrl = "https://www.python.org/ftp/python/3.11.7/python-3.11.7-amd64.exe"
-    $installerPath = Join-Path $env:TEMP "python-3.11.7-amd64.exe"
-
-    Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
-    Write-Host "Running Python installer..."
-    Start-Process -FilePath $installerPath -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
-
-    Remove-Item $installerPath
-}
-
-# Ensure python is on PATH now
-$PYTHON_EXE = "python"
-
-# Create virtual environment
+# 1) Ensure venv exists (run setup if missing)
 if (-not (Test-Path $VENV_DIR)) {
-    & $PYTHON_EXE -m venv $VENV_DIR
+    if (Test-Path $SETUP_SCRIPT) {
+        Write-Log "Virtualenv missing — running setup.ps1 (this will install Python 3.11 if needed)..."
+        # Run setup in current session so we get venv created and can activate
+        & $SETUP_SCRIPT
+    } else {
+        Write-Host "setup.ps1 not found. Please place setup.ps1 in the project root."
+        Pause
+        exit 1
+    }
+} else {
+    Write-Log "Virtualenv found at $VENV_DIR"
 }
 
-# Activate venv for current session
-$activateScript = Join-Path $VENV_DIR "Scripts\Activate.ps1"
-. $activateScript
+# 2) Activate the venv for this session to ensure 'python' refers to venv python
+$ActivateScript = Join-Path $VENV_DIR "Scripts\Activate.ps1"
+if (-not (Test-Path $ActivateScript)) {
+    Write-Host "Error: Activate script not found at $ActivateScript"
+    Pause
+    exit 1
+}
+. $ActivateScript
+Write-Log "Activated virtual environment."
 
-# Upgrade pip and install requirements
-pip install --upgrade pip
-pip install -r (Join-Path $PROJECT_DIR "requirements.txt")
+# 3) Start backend in new PowerShell window
+if (-not (Test-Path $BACKEND_SCRIPT)) {
+    Write-Host "Error: $BACKEND_SCRIPT not found."
+    Pause
+    exit 1
+}
+Write-Log "Starting backend (python $BACKEND_SCRIPT) in new window..."
+Start-Process powershell -ArgumentList @(
+    "-NoExit",
+    "-ExecutionPolicy","Bypass",
+    "-Command",
+    "Set-Location '$PROJECT_DIR'; `$env:FLASK_ENV='production'; python '$BACKEND_SCRIPT'"
+) -WindowStyle Normal
 
-Write-Host "Setup complete. Activate the venv with:`n$activateScript"
+# 4) Start frontend server in new PowerShell window
+if (-not (Test-Path $FRONTEND_DIR)) {
+    Write-Log "Frontend folder not found; serving project root instead."
+    $serveDir = $PROJECT_DIR
+} else {
+    $serveDir = $FRONTEND_DIR
+}
+Write-Log "Starting frontend http.server in $serveDir on port 8000..."
+Start-Process powershell -ArgumentList @(
+    "-NoExit",
+    "-ExecutionPolicy","Bypass",
+    "-Command",
+    "Set-Location '$serveDir'; python -m http.server 8000"
+) -WindowStyle Normal
+
+# 5) Open browser to frontend
+Start-Sleep -Seconds 1
+Start-Process "http://localhost:8000"
+Write-Log "All launched. Backend and frontend logs are in separate windows."
