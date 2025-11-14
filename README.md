@@ -31,10 +31,6 @@ mediapipe
 numpy
 
 
-
----<img width="790" height="335" alt="Screenshot 2025-11-14 at 5 46 21 PM" src="https://github.com/user-attachments/assets/8ce8f680-1f63-4fcc-85dc-2db33ec177f7" />
-
-
 ## Setup (macOS)
 
 ### 1. Clone the repository
