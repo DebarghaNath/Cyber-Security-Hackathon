@@ -63,5 +63,5 @@ go to the index.html file and do command L and command O
 ## How To Use
 
 <p align = "center">
-  <img scr = ""
+  <img scr = "Screenshot 2025-11-14 at 5.48.15 PM.png">
 </p>
