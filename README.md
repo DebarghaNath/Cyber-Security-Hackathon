@@ -62,7 +62,7 @@ go to the index.html file and do command L and command O
 
 ## How To Use
 
-### 1. first a page will open where click the choose button and navigate through the files and upload them
+### 1. first a page will open , click the "choose file" button and navigate through the files and upload them
 <p align="center">
   <img src="Screenshot 2025-11-14 at 5.50.34 PM.png" alt="Screenshot">
 
@@ -75,7 +75,7 @@ go to the index.html file and do command L and command O
 ### 3. Negative Result
 </p>
 <p align="center">
-  <img src="Screenshot 2025-11-14 at 5.48.15 PM.png" alt="Screenshot">
+  <img src="Screenshot 2025-11-14 at 5.49.58 PM.png" alt="Screenshot">
 </p>
 
 
